@@ -16,3 +16,5 @@ In this tutorial, I would like to guide myself in:
 ####### 7.1. migrate tool
 # STEP 1. Install basic libraries
 Checking: Setup libraries
+# Step 2. Install fastx-toolkit
+Checking: Adapter remove and Quality triming
