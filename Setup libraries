@@ -1,5 +1,5 @@
-#!/bin/bash
-numerr=0
+Please download file "Setup_libraries.sh"
+# Step 1 Checking: CPU, memory RAM in order to use parallel simultaneously.
 echo "Checking CPU..."
 cpu_num=$(grep -c ^processor /proc/cpuinfo 2> /dev/null)
 cpu_num=$((cpu_num+0))
