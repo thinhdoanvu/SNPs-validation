@@ -1,0 +1,22 @@
+1. Download JavaSE: 
+http://www.oracle.com/technetwork/java/javase/downloads/index.html
+2. Results:
+jdk-7u21-linux-i586.tar.gz
+3. Descompress:
+tar -zxvf jdk-xxx
+4. Make folder (if not)
+sudo mkdir /usr/bin/jvm
+5. Move file java to folder /usr/bin/jvm
+sudo mv jdk1.7.0_21 /usr/lib/jvm/
+6. Setup new jdk:
+sudo update-alternatives --install "/usr/bin/java" "java"
+"/usr/lib/jvm/jdk1.7.0_21/bin/java" 1
+7. Update alternative jvm:
+sudo update-alternatives --config java
+8. And also register Firefox Java Plugin
+sudo update-alternatives --install "/usr/lib/mozilla/plugins/libjavaplugin.so"
+"mozilla-javaplugin.so" "/usr/lib/jvm/jdk1.7.0_21/jre/lib/i386/libnpjp2.so" 1
+
+sudo update-alternatives --config mozilla-javaplugin.so
+9. Testing:
+java -version

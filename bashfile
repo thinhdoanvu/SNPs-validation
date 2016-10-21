@@ -1,0 +1,3 @@
+#!/bin/bash
+PATH="/home/thinhdv/programs/stacks:/home/thinhdv/programs/:/home/thinhdv/programs/vcffilter:/home/thinhdv/programs/pear:/home/thinhdv/programs/parallel:/home/thinhdv/programs/bamtools:/home/thinhdv/programs/bedtools/bin:/home/thinhdv/programs/cd-hit:/home/thinhdv/programs/seqtk:/home/thinhdv/programs/gnuplot:/home/thinhdv/programs/vcftools:/home/thinhdv/programs/bwa:/home/thinhdv/programs/samtools:/home/thinhdv/programs/mawk:/home/thinhdv/programs/freebayes:/home/thinhdv/programs/cmake:/home/thinhdv/programs/trimmomatic:/home/thinhdv/programs/ea-utils:/home/thinhdv/programs/rainbow:${PATH}"
+export PATH
