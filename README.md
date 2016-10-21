@@ -1,4 +1,4 @@
-# SNPs-validation
+# Steps by steps
 In this tutorial, I would like to guide myself in:
 1. How to call SNPs from NGS data files?
 2. What necessary information need to be have SNPs filtering?
