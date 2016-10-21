@@ -1,32 +1,24 @@
 Please download file "Setup_libraries.sh"
-# Step 1 Checking: CPU, memory RAM in order to use parallel simultaneously.
+
+Step 1 Checking: CPU, memory RAM in order to use parallel simultaneously.
+
 echo "Checking CPU..."
 cpu_num=$(grep -c ^processor /proc/cpuinfo 2> /dev/null)
 cpu_num=$((cpu_num+0))
 cpu_model=$(grep "model name" /proc/cpuinfo 2> /dev/null| uniq)
 echo -e "Tong so Cores: "$cpu_num
 echo $cpu_model
-#echo "Nhap so Cores toi da duoc phep su dung:"
-#read cores
-#while [[ $cores -lt 1  ||  $cores -gt $cpu_num ]]; do
-#  echo "So Cores CPU <= "$cpu_num" va >= 1"
-#  read cores
-#done
 
 echo "Checking RAM..."
 maxmem=$(($(grep -Po '(?<=^MemTotal:)\s*[0-9]+' /proc/meminfo | tr -d " ") / 1000000))
 echo "Memory total: "$maxmem"G"
 freemem=$(($(grep -Po '(?<=^MemFree:)\s*[0-9]+' /proc/meminfo | tr -d " ") / 1048576))
 echo "Free memory: "$freemem"G"
-#echo "Nhap so RAM  toi da duoc phep su dung:"
-#read mem
-#while [[ $mem -lt 1  ||  $mem -gt $freemem ]]; do
-#  echo "Dung luong RAM <= "$freemem" va >= 1G"
-#  read mem
-#done
 
 echo "Checking HDD..."
 lsblk
+
+Step 2. Create programs folder if does not exit
 
 echo "Checking folder programs..."
 path=(`pwd | grep -c "programs"`)
@@ -43,6 +35,9 @@ if(( $path \> 0 )); then
     exit
 fi
 
+Step 3. Because Linux server can not make or configure any tools. So, I need to do this at the first time when server already install.
+However, if I run on Desktop version, this can be ignored.
+
 echo "Seting up some requires..."
 if ( which make &>/dev/null ) ; then
   echo "make is already installed"
@@ -54,6 +49,8 @@ if ( which make &>/dev/null ) ; then
     sudo apt-get install make
 fi
 
+Step 4. Tmux is great tool for process in background. However, on Ubuntu 16.04 above, it can be already.
+
 if ( which tmux &>/dev/null ) ; then
   echo "tmux is already installed"
   else
@@ -63,6 +60,8 @@ if ( which tmux &>/dev/null ) ; then
     read answer
     sudo apt-get install tmux
 fi
+
+Step 5. Most of tools / softwares is writen by C code. g++, C, Clang, gcc ... need to be installed.
 
 if( which g++ &>/dev/null ); then
   echo "g++ is already installed"
@@ -84,16 +83,6 @@ if( which git &>/dev/null );then
     sudo apt-get install git
 fi
 
-if ( which curl &>/dev/null );then
-  echo "curl is already installed"
-  else
-    numerr=$((numerr+1))
-    echo "sudo apt-get install curl"
-    echo "press Enter key"
-    read answer
-    sudo apt-get install curl
-fi
-
 if( which clang &>/dev/null );then
   echo "clang is already installed"
   else
@@ -102,6 +91,15 @@ if( which clang &>/dev/null );then
     echo "press Enter key"
     read answer
     sudo apt-get install clang
+fi
+if ( which curl &>/dev/null );then
+  echo "curl is already installed"
+  else
+    numerr=$((numerr+1))
+    echo "sudo apt-get install curl"
+    echo "press Enter key"
+    read answer
+    sudo apt-get install curl
 fi
 
 if ( which gunzip &>/dev/null ); then
