@@ -1,6 +1,6 @@
 Please download file "Setup_libraries.sh"
 
-Step 1 Checking: CPU, memory RAM in order to use parallel simultaneously.
+Step 1 Checking: CPU, memory RAM in order to simultaneously use.
 
 echo "Checking CPU..."
 cpu_num=$(grep -c ^processor /proc/cpuinfo 2> /dev/null)
@@ -73,6 +73,18 @@ if( which g++ &>/dev/null ); then
     sudo apt-get install g++
 fi
 
+if( which clang &>/dev/null );then
+  echo "clang is already installed"
+  else
+    numerr=$((numerr+1))
+    echo "sudo apt-get install clang"
+    echo "press Enter key"
+    read answer
+    sudo apt-get install clang
+fi
+
+Step 6. In order to download files from different hosts, ie: github://, http:// ,etc. I need to setup git, curl and so all.
+
 if( which git &>/dev/null );then
   echo "git is already installed"
   else
@@ -83,15 +95,6 @@ if( which git &>/dev/null );then
     sudo apt-get install git
 fi
 
-if( which clang &>/dev/null );then
-  echo "clang is already installed"
-  else
-    numerr=$((numerr+1))
-    echo "sudo apt-get install clang"
-    echo "press Enter key"
-    read answer
-    sudo apt-get install clang
-fi
 if ( which curl &>/dev/null );then
   echo "curl is already installed"
   else
@@ -102,6 +105,8 @@ if ( which curl &>/dev/null );then
     sudo apt-get install curl
 fi
 
+Step 7. Tools for compress and decompress files and folders
+
 if ( which gunzip &>/dev/null ); then
   echo "gunzip is already installed"
   else
@@ -111,6 +116,8 @@ if ( which gunzip &>/dev/null ); then
     read answer
     sudo apt-get install gunzip
 fi
+
+Step 8. Other tools, but I don't remember why....hehe
 
 if( which gsl-config &>/dev/null );then
   echo "libgsl0-dev is already installed"
