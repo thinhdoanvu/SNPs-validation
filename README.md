@@ -14,3 +14,5 @@ In this tutorial, I would like to guide myself in:
   6.1. Mantel test
 7. How to test migration between populations?
   7.1. migrate tool
+# STEP 1. Install basic libraries
+Checking: Setup libraries
