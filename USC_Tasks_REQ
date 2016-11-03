@@ -1,0 +1,34 @@
+Some concept and task for COTS regeneration
+Task1: 
+Some basic concept you could google in our data:
+1, FPKM/PPKM, expression unit , Fragments Per Kilobase of transcript per Million mapped reads
+2, gene ontology, functional terms for biological processes. Three name space: biological process, molecular function, cellular component.
+3, Crown-of-thorns starfish
+4, regeneration
+ 
+Task1: counting how many genes for each GO ID for those COTS neuron regeneration-related genes. Using the attached "Oki_Neuron_regeneration_gene_GO.txt" file.
+
+######################################################
+From the results, I can see you have very good skill to handle data. Please learn more biological background about gene ontology enrichment analysis (hypergenomics test go, r package).
+ 
+Task 1 command:
+more Oki_Neuron_regeneration_gene_GO.txt |sed 's/"//g'|sed 's/#/\t/'|cut -f1,3|sed 's/,/\t/g'|awk -F"\t" '{for(i=2;i<NF;i++){print $1"\t"$i}}'|grep 'GO:'|sed 's/#/\t/' |cut -f1,2|sort -u|cut -f2|sort|uniq -c |sort -rn|more
+ 
+Task 2: for each tissue, make a statistics for all the GO terms. (input file is "regeneration.oki.annotation")
+The results will be:
+Column1: tissue/NERON/TOOTH....
+Column2:GO ID
+Column3:Number of OKI geneID
+Column4: the list of the OKI geneIDs.
+ 
+Task 3: generate a GO background file for all the starfish genome using Oki gene ID (the file is attached).
+oki_all_annotation.txt
+
+The result will be like:
+Column1:GO ID
+Column2:Number of OKI geneID
+Column3: the list of the OKI geneIDs.
+ 
+Task 4: do the enrichment analysis for different tissues.
+ 
+In summary, our goal is to identify the co-expression functional modules for regeneration in COTS.
