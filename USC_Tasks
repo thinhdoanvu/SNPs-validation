@@ -1,0 +1,195 @@
+cut -f2 cut -f2 Oki_Neuron_regeneration_gene_GO >OkiID
+awk '{print substr($0,index($0,"#")+1,length($0))}' OkiID | sed 's/GO:/\nGO:/g;s/#/\n#/g' | awk '!/#/' | sort | awk '!/No/' | awk '!/\n/' | grep "GO" >GoID
+uniq -c GoID | sort -rn >GoID.count
+
+#TASK2 can cot 2 ,3, 7 cua file GeneAnnotation
+#Open EXCEL file va copy toan bo noi dung cua file: Oki_regeneration_gene_annotation.xlsx sau do dan vo Notepad
+#duoc mot file moi dat ten la: Task2.input
+#Chi chon lay noi dung cua cot 2,3,4 cua Task2 luu thanh file: GeneAnnotation
+
+cut -f1 GeneAnnotation | sort | uniq > Tissue.list
+#Tao ra cac file voi cot du lieu dau tien la cua Tissue chu khong phai la tat ca trong 1
+
+#Mo file Tissue.list ra va xoa dong dau tien di
+
+list=$(cat Tissue.list)
+mkdir Tissue
+
+for i in $list; do grep $i GeneAnnotation >Tissue/$i; done
+
+for j in $list ; do sed 's/#/\t/g;s/,/\t/g' Tissue/$j | awk '{for (i=1;i<NF;i++) {if(substr($i,1,2)~"GO") {print $1"\t"$i"\t"$2}}}'>>summary; done
+
+sort -k1n summary | sort -k2n >summary.sort
+
+
+cut -f2 summary.sort | sort | uniq | sort > GoID.uniq
+#file
+GO
+GO:0000003
+GO:0000011
+GO:0000046
+
+idlist=$(cat GoID.uniq)
+
+mkdir GoID
+
+for i in $idlist ; do grep $i summary.sort >GoID/$i; done
+
+#file
+LIVER	GO:0001938	oki.91.58
+LIVER	GO:0001938	oki.91.58
+MUSCLE	GO:0001938	oki.91.58
+MUSCLE	GO:0001938	oki.91.58
+NERVOUS	GO:0001938	oki.91.58
+
+mkdir Tissue_GO
+
+idlist=$(cat GoID.uniq) #GO:0001938
+list=$(cat Tissue.list) #LIVER
+
+for i in $list
+do
+for j in $idlist 
+do
+grep $i GoID/$j >Tissue_GO/$i_$j
+done
+done
+
+for i in $idlist; do for j in $list ; do grep $j GoID/$i> Tissue_GO/$j.$i ; done; done
+#NERVOUS.GO:0000123
+NERVOUS	GO:0000123	oki.58.30
+
+#Xoa cac file thua
+ls Tissue_GO/ >listname
+t=$(cat listname)
+
+cd Tissue_GO
+
+#Xoa cac file co dung luong =0
+find . -type f -size 0 -delete
+rm GO
+rm *.GO
+# Chi con lai cac file co noi dung nhu sau
+#BONE.GO:0000182
+BONE	GO:0000182	oki.106.73
+BONE	GO:0000182	oki.106.73
+
+
+#Tao cac file co noi dung uniq va co 3 cot
+#vidu:BONE.GO:0000166
+BONE	GO:0000166
+
+mkdir Tissue_GO_uniq
+l=$(ls Tissue_GO)
+
+for i in $l ; do cut -f1,2 Tissue_GO/$i | uniq -c | sed 's/  //g;s/ /\t/g' | awk '{print $2"\t"$3"\t"$1}'> Tissue_GO_uniq/$i ; done
+
+#file
+BONE	GO:0000166	3
+
+
+#tao ra cac file chi chua co oki
+#vidu:
+oki.106.73
+oki.106.73
+oki.185.55
+
+
+mkdir Oki
+
+for i in $l ; do cut -f3 Tissue_GO/$i | tr '\n' ',' | sed -e '$a\' > Oki/$i ; done
+#file
+oki.106.73,oki.106.73,oki.185.55,
+
+
+#Gop 2 nhom file thanh 1
+#B1. Gop cac file o thu muc Tissue_GO_uniq thanh Tissue.Go
+
+cat Tissue_GO_uniq/* > Tissue.Go
+wc -l Tissue.Go
+#B2. Gop cac file o thu muc Oki thanh Oki.list
+
+cat Oki/* > Oki.list
+wc -l Oki.list
+
+#B3. Gop 2 cot thanh 1 cot
+paste Tissue.Go Oki.list
+
+
+#SAIIIII
+BONE	GO:0000166	2	oki.106.73
+BONE	GO:0000166	1	oki.185.55
+##DUNG
+BONE	GO:0000166	2	oki.106.73,oki.185.55
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#--------------------------------------------------------------------------------------------------------------------------
+###########################################################################################################################
+#TASK3 can cot 1 va 4 cua file oki_all_annotation.txt
+
+cut -f1 oki_all_annotation.txt | uniq > GeneID.list
+#Xoa dong dau tien di
+
+list=$(cat GeneID.list)
+for i in $list; do grep $i oki_all_annotation.txt | cut -f1,4 >$i; done
+
+for j in $list
+ do 
+  sed 's/#/\t/g;s/,/\t/g' $j | awk '{for (i=1;i<NF;i++) {if(substr($i,1,2)~"GO") {print $1"\t"$i}}}'>>summary
+  done
+
+sort -k2n summary | cut -f2 summary | sort | uniq | sort > GoID.uniq
+
+idlist=$(cat GoID.uniq)
+#file
+GO
+GO:0000003
+GO:0000011
+GO:0000046
+
+cut -f2,3 summary >Oki_GO
+#file
+
+for i in $idlist ; do grep $i Oki_GO | cut -f1 >$i.oki; done
+#file
+oki.39.103
+oki.39.103
+oki.105.20
+oki.105.20
+oki.39.103
+
+
+mkdir GoID
+mkdir Oki
+mv *.oki Oki
+
+#Xoa cac ky tu xuong hang thanh dau ,cai nay quan trong ne
+for i in $idlist ; do cat Oki/$i.oki | tr '\n' ',' | sed -e '$a\' > GoID/$i; done
+
+#dinh dang file
+oki.181.5,
+
+rm GoID/GO # file khong co noi dung chi tiet cua GOid
+
+#Noi tat ca cac file GoID thanh 1 file
+cat GoID/* >GoID.oki.uniq
+
+#dem so luong cua cac GoID
+
+# Xoa dong GO cua GoID.Uniq truoc nhe!!!!
+#Luu lai
+idlist=$(cat GoID.uniq)
+for i in $idlist ; do grep -c $i Oki_GO >>Goid.count; done 
+
+#ghep 2 cot cua 2 file thanh 1 file
+paste GoID.uniq Goid.count GoID.oki.uniq >Goid_list_oki
+
+#file
+GO:2000573	2	oki.5.174,oki.5.174,
+GO:2000648	2	oki.49.75,oki.49.75,
+GO:2001241	1	oki.102.4,
+GO:2001244	5	oki.224.5,oki.66.50,oki.224.5,oki.224.5,oki.224.5,
+
+
+#Danh so Tissue
+#nl Goid_list_oki >GO.id.result
