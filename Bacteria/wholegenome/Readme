@@ -1,0 +1,40 @@
+#Sua dong 1 cua referencegenome thanh >Contig
+#Doi ten forward va reverse thanh R1 va R2 de cho ten ngan lai, sau nay de nho
+mv KH_21_forward_paired.fq.gz KH21.R1.fq.gz
+mv KH_21_reverse_paired.fq.gz KH21.R2.fq.gz
+mv VT_45_forward_paired.fq.gz VT45.R1.fq.gz
+mv VT_45_reverse_paired.fq.gz VT45.R2.fq.gz
+
+#Liet ke danh sach cac ca the can duoc mapping
+ls *fq.gz | cut -f1 -d "." | uniq >namelist
+NAMES=$(cat namelist)
+
+#Index reference genome truoc
+samtools faidx NseriolaeE.fasta
+bwa index -a bwtsw NseriolaeE.fasta
+
+#mapping bang thuat toan bwa mem
+for i in $NAMES
+do
+bwa mem NseriolaeE.fasta $i.R1.fq.gz $i.R2.fq.gz -t 4 -a -M -T 10 -A 1 -B 4 -O 6 -R "@RG\tID:$i\tSM:$i\tPL:Illumina" 2> bwa.$i.log | mawk '!/\t[2-9].[SH].*/' | mawk '!/[2-9].[SH]\t/' | samtools view -@4 -q 1 -SbT NseriolaeE.fasta - > $i.bam 2>$i.bam.log
+samtools sort -@4 $i.bam -o $i.bam
+mv $i.bam $i-RG.bam
+samtools index $i-RG.bam
+done
+
+#Call SNPs
+#liet ke danh sach bam file
+ls *-RG.bam >bamlist.list
+
+#Cach gan day khong can bed file
+awk '{print substr($0,index($0,"-")+1,2)}' namelist >p
+  paste namelist p >popmap
+  rm p
+  ls *-RG.bam | sed 's/-RG.bam//g'| shuf | parallel --no-notice --delay 1 'freebayes -f NseriolaeE.fasta -b {}-RG.bam -v raw.{}.vcf -m 5 -q 5 -E 3 --min-repeat-entropy 1 -V --populations popmap -n 10'
+
+#Cah ngay xua
+echo "mpileup"
+samtools mpileup -D -f NseriolaeE.fasta *bam >mpileup
+echo "varscan"
+java -jar ~/programs/VarScan.v2.3.9.jar mpileup2snp mpileup --output-vcf --min-coverage 10 --strand-filter 0 --min-var-freq 0.1 --p-value 0.05 >raw.cov10.p005.vcf
+
