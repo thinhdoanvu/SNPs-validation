@@ -19,9 +19,10 @@ setupbed()
   if( find python &>/dev/null );then
     echo "python is already installed"
     else
+      echo "install python first"
       sudo apt-get install python
   fi  
-  if( find bedtools &>/dev/null );then
+  if( which bedtools &>/dev/null );then
     echo "bedtools is already installed"
     else
       echo "Downloading bedtools..."
