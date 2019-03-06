@@ -16,7 +16,7 @@ checkingbed()
 setupbed()
 {
   echo "checking python"
-  if( find python &>/dev/null );then
+  if( which python &>/dev/null );then
     echo "python is already installed"
     else
       echo "install python first"
@@ -29,7 +29,7 @@ setupbed()
       curl -L -O https://github.com/arq5x/bedtools2/releases/download/v2.23.0/bedtools-2.23.0.tar.gz
       tar xvzf bedtools-2.23.0.tar.gz
       cd bedtools2
-      make 
+      make -j
       cd bin
       chmod +x *
       echo "cd .."
