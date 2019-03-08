@@ -15,7 +15,7 @@ checkingbam()
 
 setupbam()
 {
-  if( find bamtools &>/dev/null );then
+  if( which bamtools &>/dev/null );then
     echo "bamtools is already installed"
     else
       echo "Downloading bamtools..."
