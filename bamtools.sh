@@ -15,6 +15,9 @@ checkingbam()
 
 setupbam()
 {
+  //install jsoncpp
+  sudo apt-get install libjsoncpp-dev
+  
   if( which bamtools &>/dev/null );then
     echo "bamtools is already installed"
     else
