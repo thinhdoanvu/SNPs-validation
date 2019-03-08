@@ -15,27 +15,32 @@ checkingbam()
 
 setupbam()
 {
-  //install jsoncpp
-  sudo apt-get install libjsoncpp-dev
+  #chi can dung cai nay
+  sudo apt-get update
+  sudo apt-get install bamtools
   
-  if( which bamtools &>/dev/null );then
-    echo "bamtools is already installed"
-    else
-      echo "Downloading bamtools..."
-      git clone https://github.com/pezmaster31/bamtools.git
-      cd bamtools
-      mkdir build
-      cd build
-      cmake ..
-      make
-      cd ../bin
-      chmod +x bamtools
-      echo "cd .."
-      #read answer
-      cd ../../
-      #mv bedtools2 bedtools
-      #cp bedtools-2.23.0.tar.gz ../Downloads
-  fi
+  #hoac dung cai nay
+  #install jsoncpp
+  #sudo apt-get install libjsoncpp-dev
+  
+  #if( which bamtools &>/dev/null );then
+  #  echo "bamtools is already installed"
+  #  else
+  #    echo "Downloading bamtools..."
+  #    git clone https://github.com/pezmaster31/bamtools.git
+  #    cd bamtools
+  #    mkdir build
+  #    cd build
+  #    cmake ..
+  #    make
+  #    cd ../bin
+  #    chmod +x bamtools
+  #    echo "cd .."
+  #    #read answer
+  #    cd ../../
+  #    #mv bedtools2 bedtools
+  #    #cp bedtools-2.23.0.tar.gz ../Downloads
+  #fi
 }
 ##########
 numsofts=0
