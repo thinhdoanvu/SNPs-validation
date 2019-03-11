@@ -40,3 +40,12 @@ setupfree()
 ##########
 numsofts=0
 checkfreeb
+
+Loi say ra khi make o htslib thi vo thu muc freebayes truoc
+vao thu muc Seqlib
+vao thu muc htslib
+sau do, make -j
+roi sudo make install
+
+Cuoi cung: make -j 
+va sudo make install cho free tro lai
