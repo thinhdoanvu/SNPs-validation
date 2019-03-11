@@ -36,3 +36,5 @@ setupgnu()
 ##########
 numsofts=0
 checkinggnu
+
+Loi ungzip thi co the su dung extract trong Laptop sau do copy thu muc gnuplot len server roi thuc hien cac lenh sau khi unzip
