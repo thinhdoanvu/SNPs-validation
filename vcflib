@@ -1,0 +1,15 @@
+You need to install the development files of the bzip2 library.
+
+sudo apt-get install libbz2-dev 
+
+will install it on ubuntu
+
+git clone --recursive https://github.com/vcflib/vcflib.git
+
+cd vcflib
+
+make -j
+
+cd bin
+
+update vcf-merge to PATH
